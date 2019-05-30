@@ -1,4 +1,5 @@
 # If-Else-Compiler-in-C
+
 Simulation of front end phase of C Compiler involving if-else construct using lex and yacc tools.
 
 
@@ -24,7 +25,7 @@ Intermediate Code Generation: Generated intermediate code on the fly.
 
 Contributors:
 
-Rohan Sharma
+Rohan Sharma \n
 Rohit R
 Shadan Alam Kaifee
 Shashwat Mishra
