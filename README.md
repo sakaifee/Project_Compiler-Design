@@ -25,8 +25,11 @@ Intermediate Code Generation: Generated intermediate code on the fly.
 
 Contributors:
 
-Rohan Sharma \n
+Rohan Sharma 
+
 Rohit R
+
 Shadan Alam Kaifee
+
 Shashwat Mishra
 
