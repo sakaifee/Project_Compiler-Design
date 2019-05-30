@@ -25,7 +25,7 @@ Intermediate Code Generation: Generated intermediate code on the fly.
 
 Contributors:
 
-Rohan Sharma 
+Rohan Sharma.
 Rohit R
 
 Shadan Alam Kaifee
