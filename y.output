@@ -1,0 +1,1984 @@
+   0  $accept : P $end
+
+   1  $$1 :
+
+   2  $$2 :
+
+   3  $$3 :
+
+   4  $$4 :
+
+   5  $$5 :
+
+   6  P : I M ID $$1 '(' $$2 R ')' $$3 '{' $$4 S $$5 U '}'
+
+   7  I : I I
+   8    | INCLUDE
+
+   9  M : INT
+  10    | FLOAT
+  11    | CHAR
+  12    | VOID
+
+  13  $$6 :
+
+  14  R : R ',' $$6 R
+  15    | M N TER
+  16    | N TER
+
+  17  TER : ';'
+  18      |
+
+  19  $$7 :
+
+  20  N : ID $$7 G
+
+  21  $$8 :
+
+  22  N : '*' $$8 N
+
+  23  $$9 :
+
+  24  $$10 :
+
+  25  G : '[' $$9 NUM $$10 ']' G
+  26    | '[' ID ']' G
+
+  27  $$11 :
+
+  28  G : '[' $$11 ']' G
+  29    |
+
+  30  $$12 :
+
+  31  U : RETURN NUM $$12 ';'
+  32    | RETURN ID ';'
+  33    |
+
+  34  $$13 :
+
+  35  $$14 :
+
+  36  $$15 :
+
+  37  $$16 :
+
+  38  S : IF $$13 '(' C ')' $$14 '{' $$15 S '}' $$16 EL
+  39    | assign
+  40    | M ID TER
+  41    | S S
+
+  42  $$17 :
+
+  43  S : printff $$17 '(' STRLT ')' ';'
+
+  44  $$18 :
+
+  45  S : scanff $$18 '(' STRLT ',' '&' ID ')' ';'
+  46    |
+
+  47  $$19 :
+
+  48  $$20 :
+
+  49  $$21 :
+
+  50  S : DO $$19 '{' $$20 S '}' $$21 WH
+
+  51  $$22 :
+
+  52  $$23 :
+
+  53  EL : ELSE $$22 '{' $$23 S '}'
+  54     |
+
+  55  $$24 :
+
+  56  WH : WHILE $$24 '(' C ')' ';'
+
+  57  Arg : STRLT
+
+  58  C : C AND B
+  59    | C OR B
+  60    | NE B
+  61    | B
+
+  62  $$25 :
+
+  63  assign : ID '=' $$25 E ';'
+  64         | ID '(' Arg ')' ';'
+
+  65  B : E relop E
+
+  66  $$26 :
+
+  67  B : ID '=' $$26 E
+  68    | FL
+  69    | TR
+  70    | ID
+  71    | NUM
+
+  72  $$27 :
+
+  73  E : E '+' $$27 E
+
+  74  $$28 :
+
+  75  E : E '-' $$28 E
+  76    | F
+
+  77  $$29 :
+
+  78  F : F '*' $$29 F
+
+  79  $$30 :
+
+  80  F : F '/' $$30 F
+  81    | T
+
+  82  $$31 :
+
+  83  T : T '^' $$31 T
+  84    | Q
+
+  85  $$32 :
+
+  86  Q : '(' $$32 E ')'
+
+  87  $$33 :
+
+  88  Q : ID $$33 G
+
+  89  $$34 :
+
+  90  Q : NUM $$34
+
+  91  relop : LE
+  92        | GE
+  93        | LT
+  94        | GT
+  95        | EQ
+
+state 0
+	$accept : . P $end  (0)
+
+	INCLUDE  shift 1
+	.  error
+
+	P  goto 2
+	I  goto 3
+
+
+state 1
+	I : INCLUDE .  (8)
+
+	.  reduce 8
+
+
+state 2
+	$accept : P . $end  (0)
+
+	$end  accept
+
+
+state 3
+	P : I . M ID $$1 '(' $$2 R ')' $$3 '{' $$4 S $$5 U '}'  (6)
+	I : I . I  (7)
+
+	INT  shift 4
+	FLOAT  shift 5
+	CHAR  shift 6
+	VOID  shift 7
+	INCLUDE  shift 1
+	.  error
+
+	I  goto 8
+	M  goto 9
+
+
+state 4
+	M : INT .  (9)
+
+	.  reduce 9
+
+
+state 5
+	M : FLOAT .  (10)
+
+	.  reduce 10
+
+
+state 6
+	M : CHAR .  (11)
+
+	.  reduce 11
+
+
+state 7
+	M : VOID .  (12)
+
+	.  reduce 12
+
+
+8: shift/reduce conflict (shift 1, reduce 7) on INCLUDE
+state 8
+	I : I . I  (7)
+	I : I I .  (7)
+
+	INCLUDE  shift 1
+	INT  reduce 7
+	FLOAT  reduce 7
+	CHAR  reduce 7
+	VOID  reduce 7
+
+	I  goto 8
+
+
+state 9
+	P : I M . ID $$1 '(' $$2 R ')' $$3 '{' $$4 S $$5 U '}'  (6)
+
+	ID  shift 10
+	.  error
+
+
+state 10
+	P : I M ID . $$1 '(' $$2 R ')' $$3 '{' $$4 S $$5 U '}'  (6)
+	$$1 : .  (1)
+
+	.  reduce 1
+
+	$$1  goto 11
+
+
+state 11
+	P : I M ID $$1 . '(' $$2 R ')' $$3 '{' $$4 S $$5 U '}'  (6)
+
+	'('  shift 12
+	.  error
+
+
+state 12
+	P : I M ID $$1 '(' . $$2 R ')' $$3 '{' $$4 S $$5 U '}'  (6)
+	$$2 : .  (2)
+
+	.  reduce 2
+
+	$$2  goto 13
+
+
+state 13
+	P : I M ID $$1 '(' $$2 . R ')' $$3 '{' $$4 S $$5 U '}'  (6)
+
+	INT  shift 4
+	FLOAT  shift 5
+	CHAR  shift 6
+	VOID  shift 7
+	ID  shift 14
+	'*'  shift 15
+	.  error
+
+	M  goto 16
+	R  goto 17
+	N  goto 18
+
+
+state 14
+	N : ID . $$7 G  (20)
+	$$7 : .  (19)
+
+	.  reduce 19
+
+	$$7  goto 19
+
+
+state 15
+	N : '*' . $$8 N  (22)
+	$$8 : .  (21)
+
+	.  reduce 21
+
+	$$8  goto 20
+
+
+state 16
+	R : M . N TER  (15)
+
+	ID  shift 14
+	'*'  shift 15
+	.  error
+
+	N  goto 21
+
+
+state 17
+	P : I M ID $$1 '(' $$2 R . ')' $$3 '{' $$4 S $$5 U '}'  (6)
+	R : R . ',' $$6 R  (14)
+
+	')'  shift 22
+	','  shift 23
+	.  error
+
+
+state 18
+	R : N . TER  (16)
+	TER : .  (18)
+
+	';'  shift 24
+	')'  reduce 18
+	','  reduce 18
+
+	TER  goto 25
+
+
+state 19
+	N : ID $$7 . G  (20)
+	G : .  (29)
+
+	'['  shift 26
+	')'  reduce 29
+	','  reduce 29
+	';'  reduce 29
+
+	G  goto 27
+
+
+state 20
+	N : '*' $$8 . N  (22)
+
+	ID  shift 14
+	'*'  shift 15
+	.  error
+
+	N  goto 28
+
+
+state 21
+	R : M N . TER  (15)
+	TER : .  (18)
+
+	';'  shift 24
+	')'  reduce 18
+	','  reduce 18
+
+	TER  goto 29
+
+
+state 22
+	P : I M ID $$1 '(' $$2 R ')' . $$3 '{' $$4 S $$5 U '}'  (6)
+	$$3 : .  (3)
+
+	.  reduce 3
+
+	$$3  goto 30
+
+
+state 23
+	R : R ',' . $$6 R  (14)
+	$$6 : .  (13)
+
+	.  reduce 13
+
+	$$6  goto 31
+
+
+state 24
+	TER : ';' .  (17)
+
+	.  reduce 17
+
+
+state 25
+	R : N TER .  (16)
+
+	.  reduce 16
+
+
+state 26
+	G : '[' . $$9 NUM $$10 ']' G  (25)
+	G : '[' . ID ']' G  (26)
+	G : '[' . $$11 ']' G  (28)
+	$$9 : .  (23)
+	$$11 : .  (27)
+
+	ID  shift 32
+	NUM  reduce 23
+	']'  reduce 27
+
+	$$9  goto 33
+	$$11  goto 34
+
+
+state 27
+	N : ID $$7 G .  (20)
+
+	.  reduce 20
+
+
+state 28
+	N : '*' $$8 N .  (22)
+
+	.  reduce 22
+
+
+state 29
+	R : M N TER .  (15)
+
+	.  reduce 15
+
+
+state 30
+	P : I M ID $$1 '(' $$2 R ')' $$3 . '{' $$4 S $$5 U '}'  (6)
+
+	'{'  shift 35
+	.  error
+
+
+state 31
+	R : R ',' $$6 . R  (14)
+
+	INT  shift 4
+	FLOAT  shift 5
+	CHAR  shift 6
+	VOID  shift 7
+	ID  shift 14
+	'*'  shift 15
+	.  error
+
+	M  goto 16
+	R  goto 36
+	N  goto 18
+
+
+state 32
+	G : '[' ID . ']' G  (26)
+
+	']'  shift 37
+	.  error
+
+
+state 33
+	G : '[' $$9 . NUM $$10 ']' G  (25)
+
+	NUM  shift 38
+	.  error
+
+
+state 34
+	G : '[' $$11 . ']' G  (28)
+
+	']'  shift 39
+	.  error
+
+
+state 35
+	P : I M ID $$1 '(' $$2 R ')' $$3 '{' . $$4 S $$5 U '}'  (6)
+	$$4 : .  (4)
+
+	.  reduce 4
+
+	$$4  goto 40
+
+
+36: shift/reduce conflict (shift 23, reduce 14) on ','
+state 36
+	R : R . ',' $$6 R  (14)
+	R : R ',' $$6 R .  (14)
+
+	','  shift 23
+	')'  reduce 14
+
+
+state 37
+	G : '[' ID ']' . G  (26)
+	G : .  (29)
+
+	'['  shift 26
+	LE  reduce 29
+	GE  reduce 29
+	LT  reduce 29
+	GT  reduce 29
+	EQ  reduce 29
+	AND  reduce 29
+	OR  reduce 29
+	'+'  reduce 29
+	'-'  reduce 29
+	'*'  reduce 29
+	'/'  reduce 29
+	'^'  reduce 29
+	')'  reduce 29
+	','  reduce 29
+	';'  reduce 29
+
+	G  goto 41
+
+
+state 38
+	G : '[' $$9 NUM . $$10 ']' G  (25)
+	$$10 : .  (24)
+
+	.  reduce 24
+
+	$$10  goto 42
+
+
+state 39
+	G : '[' $$11 ']' . G  (28)
+	G : .  (29)
+
+	'['  shift 26
+	LE  reduce 29
+	GE  reduce 29
+	LT  reduce 29
+	GT  reduce 29
+	EQ  reduce 29
+	AND  reduce 29
+	OR  reduce 29
+	'+'  reduce 29
+	'-'  reduce 29
+	'*'  reduce 29
+	'/'  reduce 29
+	'^'  reduce 29
+	')'  reduce 29
+	','  reduce 29
+	';'  reduce 29
+
+	G  goto 43
+
+
+40: shift/reduce conflict (shift 44, reduce 46) on IF
+40: shift/reduce conflict (shift 4, reduce 46) on INT
+40: shift/reduce conflict (shift 5, reduce 46) on FLOAT
+40: shift/reduce conflict (shift 6, reduce 46) on CHAR
+40: shift/reduce conflict (shift 45, reduce 46) on DO
+40: shift/reduce conflict (shift 7, reduce 46) on VOID
+40: shift/reduce conflict (shift 46, reduce 46) on ID
+40: shift/reduce conflict (shift 47, reduce 46) on printff
+40: shift/reduce conflict (shift 48, reduce 46) on scanff
+state 40
+	P : I M ID $$1 '(' $$2 R ')' $$3 '{' $$4 . S $$5 U '}'  (6)
+	S : .  (46)
+
+	IF  shift 44
+	INT  shift 4
+	FLOAT  shift 5
+	CHAR  shift 6
+	DO  shift 45
+	VOID  shift 7
+	ID  shift 46
+	printff  shift 47
+	scanff  shift 48
+	RETURN  reduce 46
+	'}'  reduce 46
+
+	assign  goto 49
+	M  goto 50
+	S  goto 51
+
+
+state 41
+	G : '[' ID ']' G .  (26)
+
+	.  reduce 26
+
+
+state 42
+	G : '[' $$9 NUM $$10 . ']' G  (25)
+
+	']'  shift 52
+	.  error
+
+
+state 43
+	G : '[' $$11 ']' G .  (28)
+
+	.  reduce 28
+
+
+state 44
+	S : IF . $$13 '(' C ')' $$14 '{' $$15 S '}' $$16 EL  (38)
+	$$13 : .  (34)
+
+	.  reduce 34
+
+	$$13  goto 53
+
+
+state 45
+	S : DO . $$19 '{' $$20 S '}' $$21 WH  (50)
+	$$19 : .  (47)
+
+	.  reduce 47
+
+	$$19  goto 54
+
+
+state 46
+	assign : ID . '=' $$25 E ';'  (63)
+	assign : ID . '(' Arg ')' ';'  (64)
+
+	'='  shift 55
+	'('  shift 56
+	.  error
+
+
+state 47
+	S : printff . $$17 '(' STRLT ')' ';'  (43)
+	$$17 : .  (42)
+
+	.  reduce 42
+
+	$$17  goto 57
+
+
+state 48
+	S : scanff . $$18 '(' STRLT ',' '&' ID ')' ';'  (45)
+	$$18 : .  (44)
+
+	.  reduce 44
+
+	$$18  goto 58
+
+
+state 49
+	S : assign .  (39)
+
+	.  reduce 39
+
+
+state 50
+	S : M . ID TER  (40)
+
+	ID  shift 59
+	.  error
+
+
+51: shift/reduce conflict (shift 44, reduce 46) on IF
+51: shift/reduce conflict (shift 4, reduce 46) on INT
+51: shift/reduce conflict (shift 5, reduce 46) on FLOAT
+51: shift/reduce conflict (shift 6, reduce 46) on CHAR
+51: shift/reduce conflict (shift 45, reduce 46) on DO
+51: shift/reduce conflict (shift 7, reduce 46) on VOID
+51: reduce/reduce conflict (reduce 5, reduce 46) on RETURN
+51: shift/reduce conflict (shift 46, reduce 46) on ID
+51: shift/reduce conflict (shift 47, reduce 46) on printff
+51: shift/reduce conflict (shift 48, reduce 46) on scanff
+51: reduce/reduce conflict (reduce 5, reduce 46) on '}'
+state 51
+	P : I M ID $$1 '(' $$2 R ')' $$3 '{' $$4 S . $$5 U '}'  (6)
+	S : S . S  (41)
+	$$5 : .  (5)
+	S : .  (46)
+
+	IF  shift 44
+	INT  shift 4
+	FLOAT  shift 5
+	CHAR  shift 6
+	DO  shift 45
+	VOID  shift 7
+	ID  shift 46
+	printff  shift 47
+	scanff  shift 48
+	RETURN  reduce 5
+	'}'  reduce 5
+
+	assign  goto 49
+	M  goto 50
+	S  goto 60
+	$$5  goto 61
+
+
+state 52
+	G : '[' $$9 NUM $$10 ']' . G  (25)
+	G : .  (29)
+
+	'['  shift 26
+	LE  reduce 29
+	GE  reduce 29
+	LT  reduce 29
+	GT  reduce 29
+	EQ  reduce 29
+	AND  reduce 29
+	OR  reduce 29
+	'+'  reduce 29
+	'-'  reduce 29
+	'*'  reduce 29
+	'/'  reduce 29
+	'^'  reduce 29
+	')'  reduce 29
+	','  reduce 29
+	';'  reduce 29
+
+	G  goto 62
+
+
+state 53
+	S : IF $$13 . '(' C ')' $$14 '{' $$15 S '}' $$16 EL  (38)
+
+	'('  shift 63
+	.  error
+
+
+state 54
+	S : DO $$19 . '{' $$20 S '}' $$21 WH  (50)
+
+	'{'  shift 64
+	.  error
+
+
+state 55
+	assign : ID '=' . $$25 E ';'  (63)
+	$$25 : .  (62)
+
+	.  reduce 62
+
+	$$25  goto 65
+
+
+state 56
+	assign : ID '(' . Arg ')' ';'  (64)
+
+	STRLT  shift 66
+	.  error
+
+	Arg  goto 67
+
+
+state 57
+	S : printff $$17 . '(' STRLT ')' ';'  (43)
+
+	'('  shift 68
+	.  error
+
+
+state 58
+	S : scanff $$18 . '(' STRLT ',' '&' ID ')' ';'  (45)
+
+	'('  shift 69
+	.  error
+
+
+state 59
+	S : M ID . TER  (40)
+	TER : .  (18)
+
+	';'  shift 24
+	IF  reduce 18
+	INT  reduce 18
+	FLOAT  reduce 18
+	CHAR  reduce 18
+	DO  reduce 18
+	VOID  reduce 18
+	RETURN  reduce 18
+	ID  reduce 18
+	printff  reduce 18
+	scanff  reduce 18
+	'}'  reduce 18
+
+	TER  goto 70
+
+
+60: shift/reduce conflict (shift 44, reduce 41) on IF
+60: shift/reduce conflict (shift 44, reduce 46) on IF
+60: shift/reduce conflict (shift 4, reduce 41) on INT
+60: shift/reduce conflict (shift 4, reduce 46) on INT
+60: shift/reduce conflict (shift 5, reduce 41) on FLOAT
+60: shift/reduce conflict (shift 5, reduce 46) on FLOAT
+60: shift/reduce conflict (shift 6, reduce 41) on CHAR
+60: shift/reduce conflict (shift 6, reduce 46) on CHAR
+60: shift/reduce conflict (shift 45, reduce 41) on DO
+60: shift/reduce conflict (shift 45, reduce 46) on DO
+60: shift/reduce conflict (shift 7, reduce 41) on VOID
+60: shift/reduce conflict (shift 7, reduce 46) on VOID
+60: reduce/reduce conflict (reduce 41, reduce 46) on RETURN
+60: shift/reduce conflict (shift 46, reduce 41) on ID
+60: shift/reduce conflict (shift 46, reduce 46) on ID
+60: shift/reduce conflict (shift 47, reduce 41) on printff
+60: shift/reduce conflict (shift 47, reduce 46) on printff
+60: shift/reduce conflict (shift 48, reduce 41) on scanff
+60: shift/reduce conflict (shift 48, reduce 46) on scanff
+60: reduce/reduce conflict (reduce 41, reduce 46) on '}'
+state 60
+	S : S . S  (41)
+	S : S S .  (41)
+	S : .  (46)
+
+	IF  shift 44
+	INT  shift 4
+	FLOAT  shift 5
+	CHAR  shift 6
+	DO  shift 45
+	VOID  shift 7
+	ID  shift 46
+	printff  shift 47
+	scanff  shift 48
+	RETURN  reduce 41
+	'}'  reduce 41
+
+	assign  goto 49
+	M  goto 50
+	S  goto 60
+
+
+state 61
+	P : I M ID $$1 '(' $$2 R ')' $$3 '{' $$4 S $$5 . U '}'  (6)
+	U : .  (33)
+
+	RETURN  shift 71
+	'}'  reduce 33
+
+	U  goto 72
+
+
+state 62
+	G : '[' $$9 NUM $$10 ']' G .  (25)
+
+	.  reduce 25
+
+
+state 63
+	S : IF $$13 '(' . C ')' $$14 '{' $$15 S '}' $$16 EL  (38)
+
+	NE  shift 73
+	NUM  shift 74
+	TR  shift 75
+	FL  shift 76
+	ID  shift 77
+	'('  shift 78
+	.  error
+
+	B  goto 79
+	C  goto 80
+	Q  goto 81
+	T  goto 82
+	F  goto 83
+	E  goto 84
+
+
+state 64
+	S : DO $$19 '{' . $$20 S '}' $$21 WH  (50)
+	$$20 : .  (48)
+
+	.  reduce 48
+
+	$$20  goto 85
+
+
+state 65
+	assign : ID '=' $$25 . E ';'  (63)
+
+	NUM  shift 86
+	ID  shift 87
+	'('  shift 78
+	.  error
+
+	Q  goto 81
+	T  goto 82
+	F  goto 83
+	E  goto 88
+
+
+state 66
+	Arg : STRLT .  (57)
+
+	.  reduce 57
+
+
+state 67
+	assign : ID '(' Arg . ')' ';'  (64)
+
+	')'  shift 89
+	.  error
+
+
+state 68
+	S : printff $$17 '(' . STRLT ')' ';'  (43)
+
+	STRLT  shift 90
+	.  error
+
+
+state 69
+	S : scanff $$18 '(' . STRLT ',' '&' ID ')' ';'  (45)
+
+	STRLT  shift 91
+	.  error
+
+
+state 70
+	S : M ID TER .  (40)
+
+	.  reduce 40
+
+
+state 71
+	U : RETURN . NUM $$12 ';'  (31)
+	U : RETURN . ID ';'  (32)
+
+	NUM  shift 92
+	ID  shift 93
+	.  error
+
+
+state 72
+	P : I M ID $$1 '(' $$2 R ')' $$3 '{' $$4 S $$5 U . '}'  (6)
+
+	'}'  shift 94
+	.  error
+
+
+state 73
+	C : NE . B  (60)
+
+	NUM  shift 74
+	TR  shift 75
+	FL  shift 76
+	ID  shift 77
+	'('  shift 78
+	.  error
+
+	B  goto 95
+	Q  goto 81
+	T  goto 82
+	F  goto 83
+	E  goto 84
+
+
+state 74
+	B : NUM .  (71)
+	Q : NUM . $$34  (90)
+	$$34 : .  (89)
+
+	LE  reduce 89
+	GE  reduce 89
+	LT  reduce 89
+	GT  reduce 89
+	EQ  reduce 89
+	AND  reduce 71
+	OR  reduce 71
+	'+'  reduce 89
+	'-'  reduce 89
+	'*'  reduce 89
+	'/'  reduce 89
+	'^'  reduce 89
+	')'  reduce 71
+
+	$$34  goto 96
+
+
+state 75
+	B : TR .  (69)
+
+	.  reduce 69
+
+
+state 76
+	B : FL .  (68)
+
+	.  reduce 68
+
+
+state 77
+	B : ID . '=' $$26 E  (67)
+	B : ID .  (70)
+	Q : ID . $$33 G  (88)
+	$$33 : .  (87)
+
+	'='  shift 97
+	LE  reduce 87
+	GE  reduce 87
+	LT  reduce 87
+	GT  reduce 87
+	EQ  reduce 87
+	AND  reduce 70
+	OR  reduce 70
+	'+'  reduce 87
+	'-'  reduce 87
+	'*'  reduce 87
+	'/'  reduce 87
+	'^'  reduce 87
+	')'  reduce 70
+	'['  reduce 87
+
+	$$33  goto 98
+
+
+state 78
+	Q : '(' . $$32 E ')'  (86)
+	$$32 : .  (85)
+
+	.  reduce 85
+
+	$$32  goto 99
+
+
+state 79
+	C : B .  (61)
+
+	.  reduce 61
+
+
+state 80
+	S : IF $$13 '(' C . ')' $$14 '{' $$15 S '}' $$16 EL  (38)
+	C : C . AND B  (58)
+	C : C . OR B  (59)
+
+	AND  shift 100
+	OR  shift 101
+	')'  shift 102
+	.  error
+
+
+state 81
+	T : Q .  (84)
+
+	.  reduce 84
+
+
+state 82
+	F : T .  (81)
+	T : T . '^' $$31 T  (83)
+
+	'^'  shift 103
+	LE  reduce 81
+	GE  reduce 81
+	LT  reduce 81
+	GT  reduce 81
+	EQ  reduce 81
+	AND  reduce 81
+	OR  reduce 81
+	'+'  reduce 81
+	'-'  reduce 81
+	'*'  reduce 81
+	'/'  reduce 81
+	')'  reduce 81
+	';'  reduce 81
+
+
+state 83
+	E : F .  (76)
+	F : F . '*' $$29 F  (78)
+	F : F . '/' $$30 F  (80)
+
+	'*'  shift 104
+	'/'  shift 105
+	LE  reduce 76
+	GE  reduce 76
+	LT  reduce 76
+	GT  reduce 76
+	EQ  reduce 76
+	AND  reduce 76
+	OR  reduce 76
+	'+'  reduce 76
+	'-'  reduce 76
+	')'  reduce 76
+	';'  reduce 76
+
+
+state 84
+	B : E . relop E  (65)
+	E : E . '+' $$27 E  (73)
+	E : E . '-' $$28 E  (75)
+
+	LE  shift 106
+	GE  shift 107
+	LT  shift 108
+	GT  shift 109
+	EQ  shift 110
+	'+'  shift 111
+	'-'  shift 112
+	.  error
+
+	relop  goto 113
+
+
+85: shift/reduce conflict (shift 44, reduce 46) on IF
+85: shift/reduce conflict (shift 4, reduce 46) on INT
+85: shift/reduce conflict (shift 5, reduce 46) on FLOAT
+85: shift/reduce conflict (shift 6, reduce 46) on CHAR
+85: shift/reduce conflict (shift 45, reduce 46) on DO
+85: shift/reduce conflict (shift 7, reduce 46) on VOID
+85: shift/reduce conflict (shift 46, reduce 46) on ID
+85: shift/reduce conflict (shift 47, reduce 46) on printff
+85: shift/reduce conflict (shift 48, reduce 46) on scanff
+state 85
+	S : DO $$19 '{' $$20 . S '}' $$21 WH  (50)
+	S : .  (46)
+
+	IF  shift 44
+	INT  shift 4
+	FLOAT  shift 5
+	CHAR  shift 6
+	DO  shift 45
+	VOID  shift 7
+	ID  shift 46
+	printff  shift 47
+	scanff  shift 48
+	'}'  reduce 46
+
+	assign  goto 49
+	M  goto 50
+	S  goto 114
+
+
+state 86
+	Q : NUM . $$34  (90)
+	$$34 : .  (89)
+
+	.  reduce 89
+
+	$$34  goto 96
+
+
+state 87
+	Q : ID . $$33 G  (88)
+	$$33 : .  (87)
+
+	.  reduce 87
+
+	$$33  goto 98
+
+
+state 88
+	assign : ID '=' $$25 E . ';'  (63)
+	E : E . '+' $$27 E  (73)
+	E : E . '-' $$28 E  (75)
+
+	'+'  shift 111
+	'-'  shift 112
+	';'  shift 115
+	.  error
+
+
+state 89
+	assign : ID '(' Arg ')' . ';'  (64)
+
+	';'  shift 116
+	.  error
+
+
+state 90
+	S : printff $$17 '(' STRLT . ')' ';'  (43)
+
+	')'  shift 117
+	.  error
+
+
+state 91
+	S : scanff $$18 '(' STRLT . ',' '&' ID ')' ';'  (45)
+
+	','  shift 118
+	.  error
+
+
+state 92
+	U : RETURN NUM . $$12 ';'  (31)
+	$$12 : .  (30)
+
+	.  reduce 30
+
+	$$12  goto 119
+
+
+state 93
+	U : RETURN ID . ';'  (32)
+
+	';'  shift 120
+	.  error
+
+
+state 94
+	P : I M ID $$1 '(' $$2 R ')' $$3 '{' $$4 S $$5 U '}' .  (6)
+
+	.  reduce 6
+
+
+state 95
+	C : NE B .  (60)
+
+	.  reduce 60
+
+
+state 96
+	Q : NUM $$34 .  (90)
+
+	.  reduce 90
+
+
+state 97
+	B : ID '=' . $$26 E  (67)
+	$$26 : .  (66)
+
+	.  reduce 66
+
+	$$26  goto 121
+
+
+state 98
+	Q : ID $$33 . G  (88)
+	G : .  (29)
+
+	'['  shift 26
+	LE  reduce 29
+	GE  reduce 29
+	LT  reduce 29
+	GT  reduce 29
+	EQ  reduce 29
+	AND  reduce 29
+	OR  reduce 29
+	'+'  reduce 29
+	'-'  reduce 29
+	'*'  reduce 29
+	'/'  reduce 29
+	'^'  reduce 29
+	')'  reduce 29
+	';'  reduce 29
+
+	G  goto 122
+
+
+state 99
+	Q : '(' $$32 . E ')'  (86)
+
+	NUM  shift 86
+	ID  shift 87
+	'('  shift 78
+	.  error
+
+	Q  goto 81
+	T  goto 82
+	F  goto 83
+	E  goto 123
+
+
+state 100
+	C : C AND . B  (58)
+
+	NUM  shift 74
+	TR  shift 75
+	FL  shift 76
+	ID  shift 77
+	'('  shift 78
+	.  error
+
+	B  goto 124
+	Q  goto 81
+	T  goto 82
+	F  goto 83
+	E  goto 84
+
+
+state 101
+	C : C OR . B  (59)
+
+	NUM  shift 74
+	TR  shift 75
+	FL  shift 76
+	ID  shift 77
+	'('  shift 78
+	.  error
+
+	B  goto 125
+	Q  goto 81
+	T  goto 82
+	F  goto 83
+	E  goto 84
+
+
+state 102
+	S : IF $$13 '(' C ')' . $$14 '{' $$15 S '}' $$16 EL  (38)
+	$$14 : .  (35)
+
+	.  reduce 35
+
+	$$14  goto 126
+
+
+state 103
+	T : T '^' . $$31 T  (83)
+	$$31 : .  (82)
+
+	.  reduce 82
+
+	$$31  goto 127
+
+
+state 104
+	F : F '*' . $$29 F  (78)
+	$$29 : .  (77)
+
+	.  reduce 77
+
+	$$29  goto 128
+
+
+state 105
+	F : F '/' . $$30 F  (80)
+	$$30 : .  (79)
+
+	.  reduce 79
+
+	$$30  goto 129
+
+
+state 106
+	relop : LE .  (91)
+
+	.  reduce 91
+
+
+state 107
+	relop : GE .  (92)
+
+	.  reduce 92
+
+
+state 108
+	relop : LT .  (93)
+
+	.  reduce 93
+
+
+state 109
+	relop : GT .  (94)
+
+	.  reduce 94
+
+
+state 110
+	relop : EQ .  (95)
+
+	.  reduce 95
+
+
+state 111
+	E : E '+' . $$27 E  (73)
+	$$27 : .  (72)
+
+	.  reduce 72
+
+	$$27  goto 130
+
+
+state 112
+	E : E '-' . $$28 E  (75)
+	$$28 : .  (74)
+
+	.  reduce 74
+
+	$$28  goto 131
+
+
+state 113
+	B : E relop . E  (65)
+
+	NUM  shift 86
+	ID  shift 87
+	'('  shift 78
+	.  error
+
+	Q  goto 81
+	T  goto 82
+	F  goto 83
+	E  goto 132
+
+
+114: shift/reduce conflict (shift 44, reduce 46) on IF
+114: shift/reduce conflict (shift 4, reduce 46) on INT
+114: shift/reduce conflict (shift 5, reduce 46) on FLOAT
+114: shift/reduce conflict (shift 6, reduce 46) on CHAR
+114: shift/reduce conflict (shift 45, reduce 46) on DO
+114: shift/reduce conflict (shift 7, reduce 46) on VOID
+114: shift/reduce conflict (shift 46, reduce 46) on ID
+114: shift/reduce conflict (shift 47, reduce 46) on printff
+114: shift/reduce conflict (shift 48, reduce 46) on scanff
+114: shift/reduce conflict (shift 133, reduce 46) on '}'
+state 114
+	S : S . S  (41)
+	S : DO $$19 '{' $$20 S . '}' $$21 WH  (50)
+	S : .  (46)
+
+	IF  shift 44
+	INT  shift 4
+	FLOAT  shift 5
+	CHAR  shift 6
+	DO  shift 45
+	VOID  shift 7
+	ID  shift 46
+	printff  shift 47
+	scanff  shift 48
+	'}'  shift 133
+
+	assign  goto 49
+	M  goto 50
+	S  goto 60
+
+
+state 115
+	assign : ID '=' $$25 E ';' .  (63)
+
+	.  reduce 63
+
+
+state 116
+	assign : ID '(' Arg ')' ';' .  (64)
+
+	.  reduce 64
+
+
+state 117
+	S : printff $$17 '(' STRLT ')' . ';'  (43)
+
+	';'  shift 134
+	.  error
+
+
+state 118
+	S : scanff $$18 '(' STRLT ',' . '&' ID ')' ';'  (45)
+
+	'&'  shift 135
+	.  error
+
+
+state 119
+	U : RETURN NUM $$12 . ';'  (31)
+
+	';'  shift 136
+	.  error
+
+
+state 120
+	U : RETURN ID ';' .  (32)
+
+	.  reduce 32
+
+
+state 121
+	B : ID '=' $$26 . E  (67)
+
+	NUM  shift 86
+	ID  shift 87
+	'('  shift 78
+	.  error
+
+	Q  goto 81
+	T  goto 82
+	F  goto 83
+	E  goto 137
+
+
+state 122
+	Q : ID $$33 G .  (88)
+
+	.  reduce 88
+
+
+state 123
+	E : E . '+' $$27 E  (73)
+	E : E . '-' $$28 E  (75)
+	Q : '(' $$32 E . ')'  (86)
+
+	'+'  shift 111
+	'-'  shift 112
+	')'  shift 138
+	.  error
+
+
+state 124
+	C : C AND B .  (58)
+
+	.  reduce 58
+
+
+state 125
+	C : C OR B .  (59)
+
+	.  reduce 59
+
+
+state 126
+	S : IF $$13 '(' C ')' $$14 . '{' $$15 S '}' $$16 EL  (38)
+
+	'{'  shift 139
+	.  error
+
+
+state 127
+	T : T '^' $$31 . T  (83)
+
+	NUM  shift 86
+	ID  shift 87
+	'('  shift 78
+	.  error
+
+	Q  goto 81
+	T  goto 140
+
+
+state 128
+	F : F '*' $$29 . F  (78)
+
+	NUM  shift 86
+	ID  shift 87
+	'('  shift 78
+	.  error
+
+	Q  goto 81
+	T  goto 82
+	F  goto 141
+
+
+state 129
+	F : F '/' $$30 . F  (80)
+
+	NUM  shift 86
+	ID  shift 87
+	'('  shift 78
+	.  error
+
+	Q  goto 81
+	T  goto 82
+	F  goto 142
+
+
+state 130
+	E : E '+' $$27 . E  (73)
+
+	NUM  shift 86
+	ID  shift 87
+	'('  shift 78
+	.  error
+
+	Q  goto 81
+	T  goto 82
+	F  goto 83
+	E  goto 143
+
+
+state 131
+	E : E '-' $$28 . E  (75)
+
+	NUM  shift 86
+	ID  shift 87
+	'('  shift 78
+	.  error
+
+	Q  goto 81
+	T  goto 82
+	F  goto 83
+	E  goto 144
+
+
+state 132
+	B : E relop E .  (65)
+	E : E . '+' $$27 E  (73)
+	E : E . '-' $$28 E  (75)
+
+	'+'  shift 111
+	'-'  shift 112
+	AND  reduce 65
+	OR  reduce 65
+	')'  reduce 65
+
+
+state 133
+	S : DO $$19 '{' $$20 S '}' . $$21 WH  (50)
+	$$21 : .  (49)
+
+	.  reduce 49
+
+	$$21  goto 145
+
+
+state 134
+	S : printff $$17 '(' STRLT ')' ';' .  (43)
+
+	.  reduce 43
+
+
+state 135
+	S : scanff $$18 '(' STRLT ',' '&' . ID ')' ';'  (45)
+
+	ID  shift 146
+	.  error
+
+
+state 136
+	U : RETURN NUM $$12 ';' .  (31)
+
+	.  reduce 31
+
+
+state 137
+	B : ID '=' $$26 E .  (67)
+	E : E . '+' $$27 E  (73)
+	E : E . '-' $$28 E  (75)
+
+	'+'  shift 111
+	'-'  shift 112
+	AND  reduce 67
+	OR  reduce 67
+	')'  reduce 67
+
+
+state 138
+	Q : '(' $$32 E ')' .  (86)
+
+	.  reduce 86
+
+
+state 139
+	S : IF $$13 '(' C ')' $$14 '{' . $$15 S '}' $$16 EL  (38)
+	$$15 : .  (36)
+
+	.  reduce 36
+
+	$$15  goto 147
+
+
+state 140
+	T : T . '^' $$31 T  (83)
+	T : T '^' $$31 T .  (83)
+
+	'^'  shift 103
+	LE  reduce 83
+	GE  reduce 83
+	LT  reduce 83
+	GT  reduce 83
+	EQ  reduce 83
+	AND  reduce 83
+	OR  reduce 83
+	'+'  reduce 83
+	'-'  reduce 83
+	'*'  reduce 83
+	'/'  reduce 83
+	')'  reduce 83
+	';'  reduce 83
+
+
+state 141
+	F : F . '*' $$29 F  (78)
+	F : F '*' $$29 F .  (78)
+	F : F . '/' $$30 F  (80)
+
+	.  reduce 78
+
+
+state 142
+	F : F . '*' $$29 F  (78)
+	F : F . '/' $$30 F  (80)
+	F : F '/' $$30 F .  (80)
+
+	.  reduce 80
+
+
+state 143
+	E : E . '+' $$27 E  (73)
+	E : E '+' $$27 E .  (73)
+	E : E . '-' $$28 E  (75)
+
+	.  reduce 73
+
+
+state 144
+	E : E . '+' $$27 E  (73)
+	E : E . '-' $$28 E  (75)
+	E : E '-' $$28 E .  (75)
+
+	.  reduce 75
+
+
+state 145
+	S : DO $$19 '{' $$20 S '}' $$21 . WH  (50)
+
+	WHILE  shift 148
+	.  error
+
+	WH  goto 149
+
+
+state 146
+	S : scanff $$18 '(' STRLT ',' '&' ID . ')' ';'  (45)
+
+	')'  shift 150
+	.  error
+
+
+147: shift/reduce conflict (shift 44, reduce 46) on IF
+147: shift/reduce conflict (shift 4, reduce 46) on INT
+147: shift/reduce conflict (shift 5, reduce 46) on FLOAT
+147: shift/reduce conflict (shift 6, reduce 46) on CHAR
+147: shift/reduce conflict (shift 45, reduce 46) on DO
+147: shift/reduce conflict (shift 7, reduce 46) on VOID
+147: shift/reduce conflict (shift 46, reduce 46) on ID
+147: shift/reduce conflict (shift 47, reduce 46) on printff
+147: shift/reduce conflict (shift 48, reduce 46) on scanff
+state 147
+	S : IF $$13 '(' C ')' $$14 '{' $$15 . S '}' $$16 EL  (38)
+	S : .  (46)
+
+	IF  shift 44
+	INT  shift 4
+	FLOAT  shift 5
+	CHAR  shift 6
+	DO  shift 45
+	VOID  shift 7
+	ID  shift 46
+	printff  shift 47
+	scanff  shift 48
+	'}'  reduce 46
+
+	assign  goto 49
+	M  goto 50
+	S  goto 151
+
+
+state 148
+	WH : WHILE . $$24 '(' C ')' ';'  (56)
+	$$24 : .  (55)
+
+	.  reduce 55
+
+	$$24  goto 152
+
+
+state 149
+	S : DO $$19 '{' $$20 S '}' $$21 WH .  (50)
+
+	.  reduce 50
+
+
+state 150
+	S : scanff $$18 '(' STRLT ',' '&' ID ')' . ';'  (45)
+
+	';'  shift 153
+	.  error
+
+
+151: shift/reduce conflict (shift 44, reduce 46) on IF
+151: shift/reduce conflict (shift 4, reduce 46) on INT
+151: shift/reduce conflict (shift 5, reduce 46) on FLOAT
+151: shift/reduce conflict (shift 6, reduce 46) on CHAR
+151: shift/reduce conflict (shift 45, reduce 46) on DO
+151: shift/reduce conflict (shift 7, reduce 46) on VOID
+151: shift/reduce conflict (shift 46, reduce 46) on ID
+151: shift/reduce conflict (shift 47, reduce 46) on printff
+151: shift/reduce conflict (shift 48, reduce 46) on scanff
+151: shift/reduce conflict (shift 154, reduce 46) on '}'
+state 151
+	S : IF $$13 '(' C ')' $$14 '{' $$15 S . '}' $$16 EL  (38)
+	S : S . S  (41)
+	S : .  (46)
+
+	IF  shift 44
+	INT  shift 4
+	FLOAT  shift 5
+	CHAR  shift 6
+	DO  shift 45
+	VOID  shift 7
+	ID  shift 46
+	printff  shift 47
+	scanff  shift 48
+	'}'  shift 154
+
+	assign  goto 49
+	M  goto 50
+	S  goto 60
+
+
+state 152
+	WH : WHILE $$24 . '(' C ')' ';'  (56)
+
+	'('  shift 155
+	.  error
+
+
+state 153
+	S : scanff $$18 '(' STRLT ',' '&' ID ')' ';' .  (45)
+
+	.  reduce 45
+
+
+state 154
+	S : IF $$13 '(' C ')' $$14 '{' $$15 S '}' . $$16 EL  (38)
+	$$16 : .  (37)
+
+	.  reduce 37
+
+	$$16  goto 156
+
+
+state 155
+	WH : WHILE $$24 '(' . C ')' ';'  (56)
+
+	NE  shift 73
+	NUM  shift 74
+	TR  shift 75
+	FL  shift 76
+	ID  shift 77
+	'('  shift 78
+	.  error
+
+	B  goto 79
+	C  goto 157
+	Q  goto 81
+	T  goto 82
+	F  goto 83
+	E  goto 84
+
+
+state 156
+	S : IF $$13 '(' C ')' $$14 '{' $$15 S '}' $$16 . EL  (38)
+	EL : .  (54)
+
+	ELSE  shift 158
+	IF  reduce 54
+	INT  reduce 54
+	FLOAT  reduce 54
+	CHAR  reduce 54
+	DO  reduce 54
+	VOID  reduce 54
+	RETURN  reduce 54
+	ID  reduce 54
+	printff  reduce 54
+	scanff  reduce 54
+	'}'  reduce 54
+
+	EL  goto 159
+
+
+state 157
+	WH : WHILE $$24 '(' C . ')' ';'  (56)
+	C : C . AND B  (58)
+	C : C . OR B  (59)
+
+	AND  shift 100
+	OR  shift 101
+	')'  shift 160
+	.  error
+
+
+state 158
+	EL : ELSE . $$22 '{' $$23 S '}'  (53)
+	$$22 : .  (51)
+
+	.  reduce 51
+
+	$$22  goto 161
+
+
+state 159
+	S : IF $$13 '(' C ')' $$14 '{' $$15 S '}' $$16 EL .  (38)
+
+	.  reduce 38
+
+
+state 160
+	WH : WHILE $$24 '(' C ')' . ';'  (56)
+
+	';'  shift 162
+	.  error
+
+
+state 161
+	EL : ELSE $$22 . '{' $$23 S '}'  (53)
+
+	'{'  shift 163
+	.  error
+
+
+state 162
+	WH : WHILE $$24 '(' C ')' ';' .  (56)
+
+	.  reduce 56
+
+
+state 163
+	EL : ELSE $$22 '{' . $$23 S '}'  (53)
+	$$23 : .  (52)
+
+	.  reduce 52
+
+	$$23  goto 164
+
+
+164: shift/reduce conflict (shift 44, reduce 46) on IF
+164: shift/reduce conflict (shift 4, reduce 46) on INT
+164: shift/reduce conflict (shift 5, reduce 46) on FLOAT
+164: shift/reduce conflict (shift 6, reduce 46) on CHAR
+164: shift/reduce conflict (shift 45, reduce 46) on DO
+164: shift/reduce conflict (shift 7, reduce 46) on VOID
+164: shift/reduce conflict (shift 46, reduce 46) on ID
+164: shift/reduce conflict (shift 47, reduce 46) on printff
+164: shift/reduce conflict (shift 48, reduce 46) on scanff
+state 164
+	EL : ELSE $$22 '{' $$23 . S '}'  (53)
+	S : .  (46)
+
+	IF  shift 44
+	INT  shift 4
+	FLOAT  shift 5
+	CHAR  shift 6
+	DO  shift 45
+	VOID  shift 7
+	ID  shift 46
+	printff  shift 47
+	scanff  shift 48
+	'}'  reduce 46
+
+	assign  goto 49
+	M  goto 50
+	S  goto 165
+
+
+165: shift/reduce conflict (shift 44, reduce 46) on IF
+165: shift/reduce conflict (shift 4, reduce 46) on INT
+165: shift/reduce conflict (shift 5, reduce 46) on FLOAT
+165: shift/reduce conflict (shift 6, reduce 46) on CHAR
+165: shift/reduce conflict (shift 45, reduce 46) on DO
+165: shift/reduce conflict (shift 7, reduce 46) on VOID
+165: shift/reduce conflict (shift 46, reduce 46) on ID
+165: shift/reduce conflict (shift 47, reduce 46) on printff
+165: shift/reduce conflict (shift 48, reduce 46) on scanff
+165: shift/reduce conflict (shift 166, reduce 46) on '}'
+state 165
+	S : S . S  (41)
+	EL : ELSE $$22 '{' $$23 S . '}'  (53)
+	S : .  (46)
+
+	IF  shift 44
+	INT  shift 4
+	FLOAT  shift 5
+	CHAR  shift 6
+	DO  shift 45
+	VOID  shift 7
+	ID  shift 46
+	printff  shift 47
+	scanff  shift 48
+	'}'  shift 166
+
+	assign  goto 49
+	M  goto 50
+	S  goto 60
+
+
+state 166
+	EL : ELSE $$22 '{' $$23 S '}' .  (53)
+
+	.  reduce 53
+
+
+State 8 contains 1 shift/reduce conflict.
+State 36 contains 1 shift/reduce conflict.
+State 40 contains 9 shift/reduce conflicts.
+State 51 contains 9 shift/reduce conflicts, 2 reduce/reduce conflicts.
+State 60 contains 18 shift/reduce conflicts, 2 reduce/reduce conflicts.
+State 85 contains 9 shift/reduce conflicts.
+State 114 contains 10 shift/reduce conflicts.
+State 147 contains 9 shift/reduce conflicts.
+State 151 contains 10 shift/reduce conflicts.
+State 164 contains 9 shift/reduce conflicts.
+State 165 contains 10 shift/reduce conflicts.
+
+
+42 terminals, 55 nonterminals
+96 grammar rules, 167 states
